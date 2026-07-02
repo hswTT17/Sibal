@@ -2,17 +2,30 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>앱테크 통합 플랫폼 | 내 혜택 조회</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>내 혜택 조회 | AppTech Hub</title>
   <link rel="stylesheet" href="/css/style.css" />
 </head>
 <body>
   <header class="site-header">
     <div class="container">
-      <a class="brand" href="/"><span class="brand-icon">🧭</span>앱테크올인원</a>
+      <a class="brand" href="/">
+        <span class="brand-logo">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5 13l4 4L19 7" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span class="brand-name">AppTech Hub</span>
+      </a>
+      <div class="header-search">
+        <div class="search-box">
+          <span class="material-symbols-outlined">search</span>
+          <input type="text" id="desktopSearch" placeholder="내가 쓰는 앱 검색" />
+        </div>
+      </div>
       <nav class="site-nav">
         <a href="/">홈</a>
-        <a href="/benefits.html" class="active">내 혜택 조회</a>
+        <a href="/benefits.html" class="active">내 혜택</a>
       </nav>
     </div>
   </header>
@@ -30,15 +43,25 @@
       <p>이미 쓰고 있는 앱을 체크하면, 아직 안 쓰는 앱테크 앱과 예상 추가 수익을 계산해드려요. 로그인 없이 이 기기에만 저장돼요.</p>
     </section>
 
-    <div id="checklist" class="checklist"></div>
+    <section class="mobile-search" id="search">
+      <div class="search-box">
+        <span class="material-symbols-outlined">search</span>
+        <input type="text" id="mobileSearch" placeholder="내가 쓰는 앱 검색" />
+      </div>
+    </section>
 
-    <button id="computeBtn" class="compute-btn">혜택 계산하기</button>
+    <section id="statGrid" class="stat-grid"></section>
 
-    <section id="resultsPanel" class="results-panel hidden">
-      <div class="results-total-label">아직 안 쓰는 앱에서 받을 수 있는 예상 추가 수익</div>
-      <div class="results-total-value">
-        <span id="resultsTotal">0원</span>
-        <span class="sample-badge">예시 수치</span>
+    <section class="section">
+      <div class="section-head">
+        <h2>내가 쓰는 앱 체크</h2>
+      </div>
+      <div id="checklist" class="checklist"></div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <h2>아직 안 쓰는 알짜 앱</h2>
       </div>
       <div id="resultsList" class="results-list"></div>
       <div class="results-disclaimer">
@@ -46,6 +69,23 @@
       </div>
     </section>
   </main>
+
+  <nav class="bottom-nav">
+    <div class="bottom-nav-inner">
+      <a href="/" class="bottom-nav-item">
+        <span class="material-symbols-outlined">home</span>
+        <span>홈</span>
+      </a>
+      <a href="/#search" class="bottom-nav-item raised">
+        <span class="material-symbols-outlined">search</span>
+        <span>검색</span>
+      </a>
+      <a href="/benefits.html" class="bottom-nav-item active">
+        <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">person</span>
+        <span>내 혜택</span>
+      </a>
+    </div>
+  </nav>
 
   <script type="module" src="/js/benefits.js"></script>
 </body>

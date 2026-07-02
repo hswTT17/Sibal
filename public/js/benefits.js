@@ -1,38 +1,71 @@
-import { fetchApps, formatKRW } from "./api.js";
-
-const STORAGE_KEY = "ownedAppIds";
+import {
+  fetchApps,
+  formatKRW,
+  formatKRWCompact,
+  getOwnedIds,
+  setOwnedIds,
+  computeOwnedStats,
+  categoryIcon,
+} from "./api.js";
 
 const checklistEl = document.getElementById("checklist");
-const computeBtn = document.getElementById("computeBtn");
-const resultsPanel = document.getElementById("resultsPanel");
-const resultsTotal = document.getElementById("resultsTotal");
+const statGrid = document.getElementById("statGrid");
 const resultsList = document.getElementById("resultsList");
+const searchInputs = [document.getElementById("desktopSearch"), document.getElementById("mobileSearch")].filter(
+  Boolean
+);
 
 let apps = [];
+let query = "";
 
-function getOwnedIds() {
-  try {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-  } catch {
-    return [];
-  }
+function matchesQuery(app, q) {
+  if (!q) return true;
+  const needle = q.trim().toLowerCase();
+  if (!needle) return true;
+  return app.name.toLowerCase().includes(needle) || app.categories.some((c) => c.toLowerCase().includes(needle));
 }
 
-function setOwnedIds(ids) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(ids));
+function renderStats() {
+  const stats = computeOwnedStats(apps, getOwnedIds());
+  statGrid.innerHTML = `
+    <div class="stat-card">
+      <div class="stat-card-label">사용 중인 앱</div>
+      <div class="stat-card-value">${stats.ownedCount}/${stats.totalCount}개</div>
+    </div>
+    <div class="stat-card success">
+      <div class="stat-card-label">이번 달 적립 중</div>
+      <div class="stat-card-value">${formatKRWCompact(stats.ownedMonthly)}</div>
+    </div>
+    <div class="stat-card highlight">
+      <div class="stat-card-label">놓치고 있는 예상 수익</div>
+      <div class="stat-card-value">${formatKRWCompact(stats.missingMonthly)}</div>
+    </div>
+  `;
 }
 
 function renderChecklist() {
   const ownedIds = getOwnedIds();
+  const filtered = apps.filter((app) => matchesQuery(app, query));
+
   checklistEl.innerHTML = "";
-  for (const app of apps) {
+  if (filtered.length === 0) {
+    checklistEl.innerHTML = `<div class="empty-state">검색 결과가 없어요.</div>`;
+    return;
+  }
+
+  for (const app of filtered) {
     const row = document.createElement("label");
     row.className = "checklist-row";
+    const checked = ownedIds.includes(app.id);
     row.innerHTML = `
-      <input type="checkbox" data-id="${app.id}" ${ownedIds.includes(app.id) ? "checked" : ""} />
       <span class="checklist-icon">${app.iconEmoji}</span>
       <span class="checklist-name">${app.name}</span>
-      <span class="checklist-categories">${app.categories.join(", ")}</span>
+      <span class="checklist-categories">${app.categories.map((c) => categoryIcon(c)).join(" ")} ${app.categories.join(", ")}</span>
+      <span class="switch">
+        <input type="checkbox" data-id="${app.id}" ${checked ? "checked" : ""} />
+        <span class="switch-track"></span>
+        <span class="switch-thumb"></span>
+      </span>
     `;
     const checkbox = row.querySelector("input");
     checkbox.addEventListener("change", () => {
@@ -42,52 +75,53 @@ function renderChecklist() {
       } else {
         setOwnedIds(current.filter((id) => id !== app.id));
       }
+      renderStats();
+      renderResults();
     });
     checklistEl.appendChild(row);
   }
 }
 
-function computeRecommendations(allApps, ownedIds) {
-  const notOwned = allApps.filter((a) => !ownedIds.includes(a.id));
-  const sorted = [...notOwned].sort(
-    (a, b) => b.estimatedMonthlyIncomeKRW - a.estimatedMonthlyIncomeKRW
-  );
-  const total = sorted.reduce((sum, a) => sum + a.estimatedMonthlyIncomeKRW, 0);
-  return { sorted, total };
-}
-
 function renderResults() {
-  const ownedIds = getOwnedIds();
-  const { sorted, total } = computeRecommendations(apps, ownedIds);
+  const stats = computeOwnedStats(apps, getOwnedIds());
 
-  resultsTotal.textContent = `${formatKRW(total)}/월`;
   resultsList.innerHTML = "";
-
-  if (sorted.length === 0) {
+  if (stats.notOwned.length === 0) {
     resultsList.innerHTML = `<div class="empty-state">이미 모든 앱을 사용 중이에요! 🎉</div>`;
-  } else {
-    for (const app of sorted) {
-      const row = document.createElement("div");
-      row.className = "results-row";
-      row.innerHTML = `
-        <span class="checklist-icon">${app.iconEmoji}</span>
-        <span class="checklist-name">${app.name}</span>
-        <span class="income">${formatKRW(app.estimatedMonthlyIncomeKRW)}/월</span>
-        <span class="reason">아직 사용하지 않는 ${app.categories[0]} 앱이에요</span>
-      `;
-      resultsList.appendChild(row);
-    }
+    return;
   }
-
-  resultsPanel.classList.remove("hidden");
+  for (const app of stats.notOwned) {
+    const row = document.createElement("div");
+    row.className = "results-row";
+    row.innerHTML = `
+      <span class="checklist-icon">${app.iconEmoji}</span>
+      <span class="checklist-name">${app.name}</span>
+      <span class="income">${formatKRW(app.estimatedMonthlyIncomeKRW)}/월</span>
+      <span class="reason">아직 사용하지 않는 ${app.categories[0]} 앱이에요</span>
+    `;
+    resultsList.appendChild(row);
+  }
 }
 
-computeBtn.addEventListener("click", renderResults);
+function bindSearch() {
+  for (const input of searchInputs) {
+    input.addEventListener("input", () => {
+      query = input.value;
+      for (const other of searchInputs) {
+        if (other !== input && other.value !== query) other.value = query;
+      }
+      renderChecklist();
+    });
+  }
+}
 
 async function init() {
   const data = await fetchApps();
   apps = data.apps;
+  renderStats();
   renderChecklist();
+  renderResults();
+  bindSearch();
 }
 
 init();

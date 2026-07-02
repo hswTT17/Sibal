@@ -2,17 +2,30 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>앱테크 통합 플랫폼 | 홈</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>AppTech Hub | 대한민국 앱테크 통합 플랫폼</title>
   <link rel="stylesheet" href="/css/style.css" />
 </head>
 <body>
   <header class="site-header">
     <div class="container">
-      <a class="brand" href="/"><span class="brand-icon">🧭</span>앱테크올인원</a>
+      <a class="brand" href="/">
+        <span class="brand-logo">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5 13l4 4L19 7" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span class="brand-name">AppTech Hub</span>
+      </a>
+      <div class="header-search">
+        <div class="search-box">
+          <span class="material-symbols-outlined">search</span>
+          <input type="text" id="desktopSearch" placeholder="앱 이름이나 카테고리를 검색해보세요" />
+        </div>
+      </div>
       <nav class="site-nav">
         <a href="/" class="active">홈</a>
-        <a href="/benefits.html">내 혜택 조회</a>
+        <a href="/benefits.html">내 혜택</a>
       </nav>
     </div>
   </header>
@@ -30,20 +43,66 @@
       <p>카테고리별로 앱테크 앱을 찾아보고, 인기·평점·리뷰 기준 랭킹을 확인하세요.</p>
     </section>
 
-    <div id="chipRow" class="chip-row"></div>
+    <section class="mobile-search" id="search">
+      <div class="search-box">
+        <span class="material-symbols-outlined">search</span>
+        <input type="text" id="mobileSearch" placeholder="오늘의 베스트 혜택 찾기" />
+      </div>
+    </section>
 
-    <div class="tab-row">
-      <button class="tab active" data-tab="popularity">👑 인기 TOP10</button>
-      <button class="tab" data-tab="rating">⭐ 평점 TOP10</button>
-      <button class="tab" data-tab="reviews">💛 리뷰수 TOP10</button>
-    </div>
+    <section id="heroCard" class="hero-card"></section>
 
-    <div id="cardGrid" class="card-grid"></div>
+    <section class="section">
+      <div class="section-head">
+        <h2>카테고리 둘러보기</h2>
+      </div>
+      <div id="categoryIconGrid" class="category-icon-grid"></div>
+    </section>
+
+    <section class="section" id="rankingSection">
+      <div class="section-head">
+        <h2 id="rankingTitle">인기 앱 랭킹</h2>
+      </div>
+      <div id="chipRow" class="chip-row"></div>
+      <div class="tab-row">
+        <button class="tab active" data-tab="popularity">👑 인기 TOP10</button>
+        <button class="tab" data-tab="rating">⭐ 평점 TOP10</button>
+        <button class="tab" data-tab="reviews">💛 리뷰수 TOP10</button>
+      </div>
+      <div id="cardGrid" class="card-grid"></div>
+    </section>
+
+    <section class="section" id="recommendedSection">
+      <div class="section-head">
+        <h2>당신을 위한 추천</h2>
+        <a href="/benefits.html" class="section-link">
+          내 혜택 전체보기 <span class="material-symbols-outlined" style="font-size: 16px">chevron_right</span>
+        </a>
+      </div>
+      <div id="recommendedRow" class="scroll-row"></div>
+    </section>
   </main>
 
   <div id="modalBackdrop" class="modal-backdrop hidden">
     <div class="modal" id="modalContent"></div>
   </div>
+
+  <nav class="bottom-nav">
+    <div class="bottom-nav-inner">
+      <a href="/" class="bottom-nav-item active">
+        <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">home</span>
+        <span>홈</span>
+      </a>
+      <a href="/#search" class="bottom-nav-item raised" id="bottomSearchLink">
+        <span class="material-symbols-outlined">search</span>
+        <span>검색</span>
+      </a>
+      <a href="/benefits.html" class="bottom-nav-item">
+        <span class="material-symbols-outlined">person</span>
+        <span>내 혜택</span>
+      </a>
+    </div>
+  </nav>
 
   <script type="module" src="/js/home.js"></script>
 </body>
