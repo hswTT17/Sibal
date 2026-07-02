@@ -3,6 +3,7 @@
     "name": "mobile",
     "slug": "mobile",
     "version": "1.0.0",
+    "scheme": "apptechhub",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -26,6 +27,10 @@
         "projectId": "7172605b-c776-410e-872e-0e65dd65b79f"
       }
     },
-    "owner": "hansangwon"
+    "owner": "hansangwon",
+    "plugins": [
+      "expo-router",
+      "expo-status-bar"
+    ]
   }
 }
