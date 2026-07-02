@@ -49,7 +49,7 @@
   --shadow-nav: 0 -4px 24px rgba(21, 80, 211, 0.08);
 
   --container-padding: 20px;
-  --max-width: 1200px;
+  --max-width: 480px;
   --header-h: 64px;
   --bottom-nav-h: 76px;
 }
@@ -180,12 +180,6 @@ button {
   color: var(--color-primary);
 }
 
-.header-search {
-  flex: 1;
-  max-width: 380px;
-  display: none;
-}
-
 .search-box {
   position: relative;
   width: 100%;
@@ -214,33 +208,6 @@ button {
 .search-box input:focus {
   outline: none;
   box-shadow: 0 0 0 3px rgba(21, 80, 211, 0.15);
-}
-
-.site-nav {
-  display: none;
-  gap: 4px;
-}
-
-@media (min-width: 768px) {
-  .site-nav {
-    display: flex;
-  }
-}
-
-.site-nav a {
-  text-decoration: none;
-  font-weight: 700;
-  font-size: 14px;
-  font-family: var(--font-label);
-  color: var(--color-on-surface-variant);
-  padding: 8px 14px;
-  border-radius: var(--radius-pill);
-}
-
-.site-nav a.active,
-.site-nav a:hover {
-  color: var(--color-primary);
-  background: var(--color-primary-soft);
 }
 
 /* ---------------- Disclaimer banner ---------------- */
@@ -275,7 +242,7 @@ main.container {
 
 .page-hero h1 {
   font-family: var(--font-heading);
-  font-size: 26px;
+  font-size: 22px;
   font-weight: 800;
   color: var(--color-on-surface);
   margin: 0 0 6px;
@@ -380,7 +347,7 @@ main.container {
 
 .hero-value {
   font-family: var(--font-heading);
-  font-size: 40px;
+  font-size: 32px;
   font-weight: 800;
   letter-spacing: -0.02em;
 }
@@ -561,12 +528,6 @@ main.container {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 12px;
-}
-
-@media (min-width: 640px) {
-  .category-icon-grid {
-    grid-template-columns: repeat(8, 1fr);
-  }
 }
 
 .category-icon-btn {
@@ -959,12 +920,6 @@ main.container {
   display: none;
 }
 
-@media (min-width: 560px) {
-  .checklist-categories {
-    display: block;
-  }
-}
-
 /* Toggle switch */
 .switch {
   position: relative;
@@ -1112,30 +1067,6 @@ main.container {
   box-shadow: 0 6px 16px rgba(21, 80, 211, 0.35);
 }
 
-@media (min-width: 768px) {
-  .bottom-nav {
-    display: none;
-  }
-  .header-search {
-    display: block;
-  }
-  .mobile-search {
-    display: none;
-  }
-  main.container {
-    padding-bottom: 56px;
-  }
-}
-
-@media (max-width: 480px) {
-  .page-hero h1 {
-    font-size: 22px;
-  }
-  .hero-value {
-    font-size: 32px;
-  }
-}
-
 /* ================= Additional pages: search / events / my / app detail ================= */
 
 /* ---------------- Mission / category icon grid (large) ---------------- */
@@ -1143,12 +1074,6 @@ main.container {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 16px;
-}
-
-@media (min-width: 640px) {
-  .mission-grid {
-    grid-template-columns: repeat(8, 1fr);
-  }
 }
 
 .mission-item {
@@ -1430,18 +1355,6 @@ main.container {
   display: grid;
   grid-template-columns: 1fr;
   gap: 16px;
-}
-
-@media (min-width: 640px) {
-  .event-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (min-width: 960px) {
-  .event-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
 }
 
 .event-card {
@@ -2021,12 +1934,6 @@ main.container {
 
 .fab-btn:active {
   transform: scale(0.94);
-}
-
-@media (min-width: 768px) {
-  .fab-btn {
-    bottom: 24px;
-  }
 }
 
 /* ---------------- Tip cards (community) ---------------- */
