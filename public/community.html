@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>커뮤니티 | 앱테크 허브</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <div class="header-left">
+        <a class="header-icon-btn" href="/" aria-label="홈">
+          <span class="material-symbols-outlined">grid_view</span>
+        </a>
+        <span class="brand-name">앱테크 허브</span>
+      </div>
+      <nav class="site-nav">
+        <a href="/">홈</a>
+        <a href="/events">이벤트</a>
+        <a href="/search">검색</a>
+        <a href="/community" class="active">커뮤니티</a>
+        <a href="/benefits.html">마이페이지</a>
+      </nav>
+      <a class="header-icon-btn" id="headerBell" href="/benefits.html#alerts" aria-label="알림">
+        <span class="material-symbols-outlined">notifications</span>
+        <span class="alert-dot"></span>
+      </a>
+    </div>
+  </header>
+
+  <div class="disclaimer-banner">
+    <div class="container">
+      <span>ℹ️</span>
+      <span>여기 모은 꿀팁은 실제 사용자 게시글이 아니라, 각 앱의 공식 적립 방법을 정리한 안내 정보예요.</span>
+    </div>
+  </div>
+
+  <main class="container">
+    <section class="page-hero">
+      <h1>앱테크 꿀팁 모음</h1>
+      <p>카테고리별로 각 앱의 공식 적립 방법을 모아봤어요.</p>
+    </section>
+
+    <section class="mobile-search" style="display: block">
+      <div class="search-box">
+        <span class="material-symbols-outlined">search</span>
+        <input type="text" id="tipSearch" placeholder="앱 이름으로 꿀팁 검색" />
+      </div>
+    </section>
+
+    <section class="section">
+      <div id="categoryChips" class="chip-row"></div>
+    </section>
+
+    <section class="section">
+      <div id="tipGrid" class="card-grid"></div>
+    </section>
+  </main>
+
+  <nav class="bottom-nav">
+    <div class="bottom-nav-inner">
+      <a href="/" class="bottom-nav-item">
+        <span class="material-symbols-outlined">home</span>
+        <span>홈</span>
+      </a>
+      <a href="/events" class="bottom-nav-item">
+        <span class="material-symbols-outlined">redeem</span>
+        <span>이벤트</span>
+      </a>
+      <a href="/search" class="bottom-nav-item">
+        <span class="material-symbols-outlined">search</span>
+        <span>검색</span>
+      </a>
+      <a href="/community" class="bottom-nav-item active">
+        <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">groups</span>
+        <span>커뮤니티</span>
+      </a>
+      <a href="/benefits.html" class="bottom-nav-item">
+        <span class="material-symbols-outlined">person</span>
+        <span>마이페이지</span>
+      </a>
+    </div>
+  </nav>
+
+  <script type="module" src="/js/community.js"></script>
+</body>
+</html>

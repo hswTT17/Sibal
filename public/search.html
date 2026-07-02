@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>앱테크 허브 | 대한민국 앱테크 통합 플랫폼</title>
+  <title>검색 | 앱테크 허브</title>
   <link rel="stylesheet" href="/css/style.css" />
 </head>
 <body>
@@ -16,9 +16,9 @@
         <span class="brand-name">앱테크 허브</span>
       </div>
       <nav class="site-nav">
-        <a href="/" class="active">홈</a>
+        <a href="/">홈</a>
         <a href="/events">이벤트</a>
-        <a href="/search">검색</a>
+        <a href="/search" class="active">검색</a>
         <a href="/community">커뮤니티</a>
         <a href="/benefits.html">마이페이지</a>
       </nav>
@@ -29,63 +29,49 @@
     </div>
   </header>
 
-  <div class="disclaimer-banner">
-    <div class="container">
-      <span>⚠️</span>
-      <span>표시된 예상 수익은 실제 검증되지 않은 샘플(예시) 데이터입니다. 실제 리워드는 앱 정책 및 시점에 따라 달라질 수 있어요.</span>
-    </div>
-  </div>
-
   <main class="container">
-    <section class="section">
-      <div class="section-head">
-        <h2>오늘 받을 수 있는 혜택</h2>
+    <section class="mobile-search" style="display: block">
+      <div class="search-box">
+        <span class="material-symbols-outlined">search</span>
+        <input type="text" id="searchInput" placeholder="앱 이름이나 혜택을 검색하세요" />
       </div>
-      <div id="heroCard" class="hero-card hero-card--light"></div>
     </section>
 
     <section class="section">
       <div class="section-head">
-        <h2>카테고리 둘러보기</h2>
+        <h2>인기 검색어</h2>
+        <span class="section-link" style="color: var(--color-outline); cursor: default">리뷰 많은 순</span>
       </div>
-      <div id="missionGrid" class="mission-grid"></div>
+      <div id="keywordRow" class="keyword-row"></div>
     </section>
 
     <section class="section">
       <div class="section-head">
-        <h2>지금 주목받는 앱</h2>
-        <span class="material-symbols-outlined" style="color: var(--color-on-surface-variant)">chevron_right</span>
+        <h2>카테고리</h2>
       </div>
-      <div id="promoRow" class="promo-row"></div>
+      <div id="categoryGrid" class="mission-grid" style="grid-template-columns: repeat(5, 1fr)"></div>
     </section>
 
     <section class="section">
       <div class="section-head">
-        <h2>아직 안 쓰는 인기 앱</h2>
-        <a href="/benefits.html" class="section-link">
-          내 혜택 전체보기 <span class="material-symbols-outlined" style="font-size: 16px">chevron_right</span>
-        </a>
+        <h2 id="listTitle">추천 앱테크</h2>
       </div>
-      <div id="recommendedList" class="card-grid" style="grid-template-columns: 1fr; gap: 12px"></div>
+      <div id="appList" class="card-grid" style="grid-template-columns: 1fr; gap: 12px"></div>
     </section>
   </main>
 
-  <a href="/benefits.html#checklist" class="fab-btn" aria-label="내 앱 체크하기">
-    <span class="material-symbols-outlined" style="font-size: 26px">add_task</span>
-  </a>
-
   <nav class="bottom-nav">
     <div class="bottom-nav-inner">
-      <a href="/" class="bottom-nav-item active">
-        <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">home</span>
+      <a href="/" class="bottom-nav-item">
+        <span class="material-symbols-outlined">home</span>
         <span>홈</span>
       </a>
       <a href="/events" class="bottom-nav-item">
         <span class="material-symbols-outlined">redeem</span>
         <span>이벤트</span>
       </a>
-      <a href="/search" class="bottom-nav-item">
-        <span class="material-symbols-outlined">search</span>
+      <a href="/search" class="bottom-nav-item active">
+        <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">search</span>
         <span>검색</span>
       </a>
       <a href="/community" class="bottom-nav-item">
@@ -99,6 +85,6 @@
     </div>
   </nav>
 
-  <script type="module" src="/js/home.js"></script>
+  <script type="module" src="/js/search.js"></script>
 </body>
 </html>

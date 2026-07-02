@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>앱 상세 정보 | 앱테크 허브</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <header class="detail-header">
+    <div class="container">
+      <button class="header-icon-btn" id="backBtn" aria-label="뒤로가기">
+        <span class="material-symbols-outlined">chevron_left</span>
+      </button>
+      <h1>앱 상세 정보</h1>
+      <button class="header-icon-btn" id="shareBtn" aria-label="공유하기">
+        <span class="material-symbols-outlined">share</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="container" id="detailMain" style="padding-bottom: calc(var(--bottom-nav-h) + 32px)">
+    <div class="empty-state">불러오는 중...</div>
+  </main>
+
+  <nav class="bottom-nav">
+    <div class="bottom-nav-inner">
+      <a href="/" class="bottom-nav-item">
+        <span class="material-symbols-outlined">home</span>
+        <span>홈</span>
+      </a>
+      <a href="/events" class="bottom-nav-item">
+        <span class="material-symbols-outlined">redeem</span>
+        <span>이벤트</span>
+      </a>
+      <a href="/search" class="bottom-nav-item">
+        <span class="material-symbols-outlined">search</span>
+        <span>검색</span>
+      </a>
+      <a href="/community" class="bottom-nav-item">
+        <span class="material-symbols-outlined">groups</span>
+        <span>커뮤니티</span>
+      </a>
+      <a href="/benefits.html" class="bottom-nav-item">
+        <span class="material-symbols-outlined">person</span>
+        <span>마이페이지</span>
+      </a>
+    </div>
+  </nav>
+
+  <script type="module" src="/js/app-detail.js"></script>
+</body>
+</html>

@@ -12,24 +12,89 @@ export function formatKRWCompact(amount) {
   return `₩${Math.round(amount).toLocaleString("ko-KR")}`;
 }
 
-const STORAGE_KEY = "ownedAppIds";
+const OWNED_KEY = "ownedApps"; // { [appId]: { checkedAt: number } }
+const OLD_OWNED_KEY = "ownedAppIds"; // legacy: string[]
+const ACTIVITY_KEY = "activityLog"; // { ts, appId, appName, action }[]
+const ALERTS_KEY = "systemAlerts"; // { rewardReminder: bool, hotDeal: bool }
+const MAX_ACTIVITY = 50;
+
+function migrateLegacyOwned() {
+  const legacy = localStorage.getItem(OLD_OWNED_KEY);
+  if (!legacy) return;
+  try {
+    const ids = JSON.parse(legacy) || [];
+    const now = Date.now();
+    const records = {};
+    for (const id of ids) records[id] = { checkedAt: now };
+    localStorage.setItem(OWNED_KEY, JSON.stringify(records));
+  } catch {
+    /* ignore malformed legacy data */
+  } finally {
+    localStorage.removeItem(OLD_OWNED_KEY);
+  }
+}
+
+export function getOwnedRecords() {
+  migrateLegacyOwned();
+  try {
+    return JSON.parse(localStorage.getItem(OWNED_KEY)) || {};
+  } catch {
+    return {};
+  }
+}
 
 export function getOwnedIds() {
+  return Object.keys(getOwnedRecords());
+}
+
+function setOwnedRecords(records) {
+  localStorage.setItem(OWNED_KEY, JSON.stringify(records));
+}
+
+/** Adds/removes an app from "내가 쓰는 앱" and appends a real timestamped activity entry. */
+export function setAppOwned(app, owned) {
+  const records = getOwnedRecords();
+  if (owned) {
+    if (!records[app.id]) records[app.id] = { checkedAt: Date.now() };
+  } else {
+    delete records[app.id];
+  }
+  setOwnedRecords(records);
+  appendActivity(app, owned ? "add" : "remove");
+}
+
+function appendActivity(app, action) {
+  const log = getActivityLog();
+  log.unshift({ ts: Date.now(), appId: app.id, appName: app.name, iconEmoji: app.iconEmoji, action });
+  localStorage.setItem(ACTIVITY_KEY, JSON.stringify(log.slice(0, MAX_ACTIVITY)));
+}
+
+export function getActivityLog() {
   try {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+    return JSON.parse(localStorage.getItem(ACTIVITY_KEY)) || [];
   } catch {
     return [];
   }
 }
 
-export function setOwnedIds(ids) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(ids));
+export function getSystemAlerts() {
+  try {
+    return { rewardReminder: false, hotDeal: false, ...JSON.parse(localStorage.getItem(ALERTS_KEY)) };
+  } catch {
+    return { rewardReminder: false, hotDeal: false };
+  }
+}
+
+export function setSystemAlert(key, value) {
+  const alerts = getSystemAlerts();
+  alerts[key] = value;
+  localStorage.setItem(ALERTS_KEY, JSON.stringify(alerts));
 }
 
 /**
  * Derives the "내 혜택" summary from the full app catalog + the apps the
- * user already marked as owned. Shared by the home dashboard hero and the
- * benefits page so both surfaces stay consistent.
+ * user already marked as owned. Shared by the home/my-page dashboards so
+ * every surface stays consistent.
  */
 export function computeOwnedStats(apps, ownedIds) {
   const owned = apps.filter((a) => ownedIds.includes(a.id));
@@ -46,7 +111,37 @@ export function computeOwnedStats(apps, ownedIds) {
     ownedMonthly,
     missingMonthly,
     notOwned,
+    owned,
   };
+}
+
+/**
+ * Estimated "누적 수익" — for each app checked as owned, the real elapsed
+ * time since it was checked (not a fabricated history) times its daily
+ * rate. Grows naturally the longer someone keeps using the site.
+ */
+export function computeCumulativeEstimate(apps, ownedRecords) {
+  const now = Date.now();
+  let total = 0;
+  for (const app of apps) {
+    const record = ownedRecords[app.id];
+    if (!record) continue;
+    const elapsedDays = Math.max(0, (now - record.checkedAt) / 86400000);
+    total += (app.estimatedMonthlyIncomeKRW / 30) * elapsedDays;
+  }
+  return Math.round(total);
+}
+
+const TIERS = [
+  { min: 10, label: "다이아몬드", emoji: "💎" },
+  { min: 5, label: "골드", emoji: "🥇" },
+  { min: 1, label: "실버", emoji: "🥈" },
+  { min: 0, label: "브론즈", emoji: "🥉" },
+];
+
+/** A playful tier derived from real "내가 쓰는 앱" count — not a fabricated rank. */
+export function computeTier(ownedCount) {
+  return TIERS.find((t) => ownedCount >= t.min);
 }
 
 export const CATEGORY_ICONS = {
@@ -76,4 +171,25 @@ export const CATEGORY_ICONS = {
 
 export function categoryIcon(category) {
   return CATEGORY_ICONS[category] || "🏷️";
+}
+
+export function topCategories(apps, limit) {
+  const counts = new Map();
+  for (const app of apps) {
+    for (const c of app.categories) counts.set(c, (counts.get(c) || 0) + 1);
+  }
+  return [...counts.entries()]
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, limit)
+    .map(([category]) => category);
+}
+
+export function timeAgoLabel(ts) {
+  const d = new Date(ts);
+  const now = new Date();
+  const sameDay = d.toDateString() === now.toDateString();
+  const hh = String(d.getHours()).padStart(2, "0");
+  const mm = String(d.getMinutes()).padStart(2, "0");
+  if (sameDay) return `오늘, 오후 ${hh}:${mm}`;
+  return `${d.getMonth() + 1}월 ${d.getDate()}일, ${hh}:${mm}`;
 }

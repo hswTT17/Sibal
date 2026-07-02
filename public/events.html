@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>이벤트 | 앱테크 허브</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <div class="header-left">
+        <a class="header-icon-btn" href="/" aria-label="홈">
+          <span class="material-symbols-outlined">grid_view</span>
+        </a>
+        <span class="brand-name">앱테크 허브</span>
+      </div>
+      <nav class="site-nav">
+        <a href="/">홈</a>
+        <a href="/events" class="active">이벤트</a>
+        <a href="/search">검색</a>
+        <a href="/community">커뮤니티</a>
+        <a href="/benefits.html">마이페이지</a>
+      </nav>
+      <a class="header-icon-btn" id="headerBell" href="/benefits.html#alerts" aria-label="알림">
+        <span class="material-symbols-outlined">notifications</span>
+        <span class="alert-dot"></span>
+      </a>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="section">
+      <div id="heroCard" class="promo-card promo-card--primary" style="height: auto; flex: none; padding: 28px"></div>
+    </section>
+
+    <section class="section">
+      <div id="filterRow" class="chip-row"></div>
+    </section>
+
+    <section class="section">
+      <div id="eventGrid" class="event-grid"></div>
+      <button id="loadMoreBtn" class="load-more-btn">
+        더보기 <span class="material-symbols-outlined">expand_more</span>
+      </button>
+    </section>
+  </main>
+
+  <nav class="bottom-nav">
+    <div class="bottom-nav-inner">
+      <a href="/" class="bottom-nav-item">
+        <span class="material-symbols-outlined">home</span>
+        <span>홈</span>
+      </a>
+      <a href="/events" class="bottom-nav-item active">
+        <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">redeem</span>
+        <span>이벤트</span>
+      </a>
+      <a href="/search" class="bottom-nav-item">
+        <span class="material-symbols-outlined">search</span>
+        <span>검색</span>
+      </a>
+      <a href="/community" class="bottom-nav-item">
+        <span class="material-symbols-outlined">groups</span>
+        <span>커뮤니티</span>
+      </a>
+      <a href="/benefits.html" class="bottom-nav-item">
+        <span class="material-symbols-outlined">person</span>
+        <span>마이페이지</span>
+      </a>
+    </div>
+  </nav>
+
+  <script type="module" src="/js/events.js"></script>
+</body>
+</html>

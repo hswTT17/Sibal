@@ -3,30 +3,29 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>내 혜택 조회 | AppTech Hub</title>
+  <title>마이페이지 | 앱테크 허브</title>
   <link rel="stylesheet" href="/css/style.css" />
 </head>
 <body>
   <header class="site-header">
     <div class="container">
-      <a class="brand" href="/">
-        <span class="brand-logo">
-          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M5 13l4 4L19 7" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </span>
-        <span class="brand-name">AppTech Hub</span>
-      </a>
-      <div class="header-search">
-        <div class="search-box">
-          <span class="material-symbols-outlined">search</span>
-          <input type="text" id="desktopSearch" placeholder="내가 쓰는 앱 검색" />
-        </div>
+      <div class="header-left">
+        <a class="header-icon-btn" href="/" aria-label="홈">
+          <span class="material-symbols-outlined">grid_view</span>
+        </a>
+        <span class="brand-name">앱테크 허브</span>
       </div>
       <nav class="site-nav">
         <a href="/">홈</a>
-        <a href="/benefits.html" class="active">내 혜택</a>
+        <a href="/events">이벤트</a>
+        <a href="/search">검색</a>
+        <a href="/community">커뮤니티</a>
+        <a href="/benefits.html" class="active">마이페이지</a>
       </nav>
+      <a class="header-icon-btn" id="headerBell" href="/benefits.html#alerts" aria-label="알림">
+        <span class="material-symbols-outlined">notifications</span>
+        <span class="alert-dot"></span>
+      </a>
     </div>
   </header>
 
@@ -38,25 +37,83 @@
   </div>
 
   <main class="container">
-    <section class="page-hero">
-      <h1>내가 받을 수 있는 혜택 조회</h1>
-      <p>이미 쓰고 있는 앱을 체크하면, 아직 안 쓰는 앱테크 앱과 예상 추가 수익을 계산해드려요. 로그인 없이 이 기기에만 저장돼요.</p>
+    <section id="profileHeader" class="profile-header"></section>
+
+    <section class="section">
+      <div id="statGrid" class="stat-grid"></div>
     </section>
 
-    <section class="mobile-search" id="search">
-      <div class="search-box">
-        <span class="material-symbols-outlined">search</span>
-        <input type="text" id="mobileSearch" placeholder="내가 쓰는 앱 검색" />
+    <section class="section">
+      <div class="bar-chart-card">
+        <div class="bar-chart-head">
+          <h2>주간 예상 리포트</h2>
+        </div>
+        <div id="barChart" class="bar-chart"></div>
+        <p style="font-size: 12px; color: var(--color-outline); margin: 14px 0 0">
+          * 오늘 적립액을 기준으로 한 추정치이며, 실제 일별 기록이 아닙니다.
+        </p>
       </div>
     </section>
 
-    <section id="statGrid" class="stat-grid"></section>
+    <section class="section" style="display: grid; grid-template-columns: 1fr; gap: 16px">
+      <div class="bar-chart-card">
+        <div class="bar-chart-head">
+          <h2>즐겨찾는 앱</h2>
+          <a href="#checklist" class="section-link">편집</a>
+        </div>
+        <div id="favoriteGrid" class="favorite-grid"></div>
+      </div>
+
+      <div class="bar-chart-card" id="alerts">
+        <div class="bar-chart-head">
+          <h2>시스템 알림</h2>
+        </div>
+        <div class="alert-row">
+          <span class="alert-row-label">
+            <span class="material-symbols-outlined">notifications_active</span>
+            보상 리마인더
+          </span>
+          <span class="switch">
+            <input type="checkbox" id="reminderToggle" />
+            <span class="switch-track"></span>
+            <span class="switch-thumb"></span>
+          </span>
+        </div>
+        <div class="alert-row">
+          <span class="alert-row-label">
+            <span class="material-symbols-outlined">local_fire_department</span>
+            핫딜 알림
+          </span>
+          <span class="switch">
+            <input type="checkbox" id="hotDealToggle" />
+            <span class="switch-track"></span>
+            <span class="switch-thumb"></span>
+          </span>
+        </div>
+      </div>
+    </section>
 
     <section class="section">
+      <div class="activity-card">
+        <div class="bar-chart-head" style="padding: 18px 20px 0">
+          <h2>리워드 내역</h2>
+        </div>
+        <div id="activityList" style="padding: 8px 0"></div>
+        <button id="activityMoreBtn" class="activity-more-btn">전체 활동 보기</button>
+      </div>
+    </section>
+
+    <section class="section" id="checklist">
       <div class="section-head">
         <h2>내가 쓰는 앱 체크</h2>
       </div>
-      <div id="checklist" class="checklist"></div>
+      <div class="mobile-search" style="display: block; margin-bottom: -8px">
+        <div class="search-box">
+          <span class="material-symbols-outlined">search</span>
+          <input type="text" id="checklistSearch" placeholder="내가 쓰는 앱 검색" />
+        </div>
+      </div>
+      <div id="checklistEl" class="checklist"></div>
     </section>
 
     <section class="section">
@@ -76,13 +133,21 @@
         <span class="material-symbols-outlined">home</span>
         <span>홈</span>
       </a>
-      <a href="/#search" class="bottom-nav-item raised">
+      <a href="/events" class="bottom-nav-item">
+        <span class="material-symbols-outlined">redeem</span>
+        <span>이벤트</span>
+      </a>
+      <a href="/search" class="bottom-nav-item">
         <span class="material-symbols-outlined">search</span>
         <span>검색</span>
       </a>
+      <a href="/community" class="bottom-nav-item">
+        <span class="material-symbols-outlined">groups</span>
+        <span>커뮤니티</span>
+      </a>
       <a href="/benefits.html" class="bottom-nav-item active">
         <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">person</span>
-        <span>내 혜택</span>
+        <span>마이페이지</span>
       </a>
     </div>
   </nav>
