@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>앱테크 통합 플랫폼 | 내 혜택 조회</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="/"><span class="brand-icon">🧭</span>앱테크올인원</a>
+      <nav class="site-nav">
+        <a href="/">홈</a>
+        <a href="/benefits.html" class="active">내 혜택 조회</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="disclaimer-banner">
+    <div class="container">
+      <span>⚠️</span>
+      <span>표시된 예상 수익은 실제 검증되지 않은 샘플(예시) 데이터입니다. 실제 리워드는 앱 정책 및 시점에 따라 달라질 수 있어요.</span>
+    </div>
+  </div>
+
+  <main class="container">
+    <section class="page-hero">
+      <h1>내가 받을 수 있는 혜택 조회</h1>
+      <p>이미 쓰고 있는 앱을 체크하면, 아직 안 쓰는 앱테크 앱과 예상 추가 수익을 계산해드려요. 로그인 없이 이 기기에만 저장돼요.</p>
+    </section>
+
+    <div id="checklist" class="checklist"></div>
+
+    <button id="computeBtn" class="compute-btn">혜택 계산하기</button>
+
+    <section id="resultsPanel" class="results-panel hidden">
+      <div class="results-total-label">아직 안 쓰는 앱에서 받을 수 있는 예상 추가 수익</div>
+      <div class="results-total-value">
+        <span id="resultsTotal">0원</span>
+        <span class="sample-badge">예시 수치</span>
+      </div>
+      <div id="resultsList" class="results-list"></div>
+      <div class="results-disclaimer">
+        위 수치는 실제 검증되지 않은 샘플 데이터를 기준으로 계산한 예시입니다. 각 앱의 실제 리워드는 정책/시점에 따라 다를 수 있으니 참고용으로만 확인해주세요.
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="/js/benefits.js"></script>
+</body>
+</html>
