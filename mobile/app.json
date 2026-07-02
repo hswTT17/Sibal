@@ -20,6 +20,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "7172605b-c776-410e-872e-0e65dd65b79f"
+      }
+    },
+    "owner": "hansangwon"
   }
 }
